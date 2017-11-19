@@ -4,16 +4,19 @@
       <span>Handling Ajax Request with Axios in Vue</span>
     </header>
     <main>
-      <div class="">
         <h2>Click the button to get Random jokes</h2>
-        <button class="" v-on:click="getJokes">Get Jokes</button>
-      </div>
+        <button id="btn" class="" v-on:click="getJokes">Get Jokes</button>
+
+        <div v-if="loading">
+          <img src="../src/assets/loader.gif"/>
+          Loading.....
+        </div>
 
       <div class="wrapper">
         <div class="row">
           <div v-for="joke in jokes" :key="joke.id">
           <div class="col-md-4 cards">
-             <img src="https://placeimg.com/300/300/nature" alt="Random images placeholder">
+             <img src="https://placeimg.com/300/300/nature" class="img-responsive" alt="Random images placeholder"> 
             <div>
               <h3>{{ joke.id }}</h3>
               <p>{{ joke.joke }}</p>
@@ -29,22 +32,27 @@
 </template>
 
 <script>
-  import axios from 'axios'
+  //import axios from 'axios';
+  import {API} from './axios'
 
 export default {
   name: 'app',
   data () {
     return {
-      jokes: []
+      jokes: [],
+      loading: false
     }
   }, 
   methods: {
     getJokes: function () {
-      axios.get("http://api.icndb.com/jokes/random/10")
+      this.loading = true;
+      API.get(`jokes`)
       .then((response)  =>  {
+        this.loading = false;
         this.jokes = response.data.value;
       }, (error)  =>  {
-        console.log(error)
+        console.log(error);
+        this.loading = false;
       })
     }
   },
@@ -106,6 +114,7 @@ button {
   transform: translateY(-0.5em);
   background: #EBEBEB;
 }
+
 
 .cards {
    column-count: 1;

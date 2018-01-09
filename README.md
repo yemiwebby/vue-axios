@@ -1,6 +1,6 @@
 # vue-axios
 
-> A simple application to demonstrate how to use axios in Vue Applications.
+> A simple application to demonstrate how to use axios to make Ajax call in Vue Applications.
 
 ## Build Setup
 
